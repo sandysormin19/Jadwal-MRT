@@ -7,7 +7,8 @@ Dibangun menggunakan **Go (Golang) + Gin** untuk backend, dan **React.js** untuk
 Aplikasi ini menyediakan:
 - Daftar stasiun MRT Jakarta
 - Jadwal keberangkatan per stasiun
-- Tampilan frontend agar pengguna tidak perlu akses lewat Postman
+- Tampilan frontend yang baik agar pengguna nyaman.
+- Dapat melakukan pencarian stasiun dan jadwal.
 
 ## Teknologi yang Digunakan
 
@@ -27,8 +28,9 @@ Aplikasi ini menyediakan:
 
 ## Fitur
 - Menampilkan daftar stasiun MRT Jakarta
+- Aplikasi akan menampilkan jadwal berikutnya dari waktu user.
 - Melihat jadwal keberangkatan kereta berdasarkan **Station ID (nid)**
-- Frontend + Backend digabung → cukup jalankan 1 server
+- Fitur untuk filter stasiun dan jadwal.
 - Akan terus dikembangkan.......
 
 ## Intruksi setup

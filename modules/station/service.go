@@ -2,10 +2,11 @@ package station
 
 import (
 	"encoding/json"
-	"net/http"
-	"time"
-	"strings"
 	"errors"
+	"net/http"
+	"strings"
+	"time"
+
 	"github.com/sandysormin19/Jadwal-MRT/common/client"
 )
 

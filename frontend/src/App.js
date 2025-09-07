@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./App.css"; // import file css
+import "./App.css";
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 export default function App() {
   const [stations, setStations] = useState([]);
@@ -10,7 +12,7 @@ export default function App() {
 
   // Ambil daftar stasiun
   useEffect(() => {
-    fetch("http://localhost:8080/v1/api/stations/")
+    fetch(`${API_URL}/v1/api/stations/`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -22,7 +24,7 @@ export default function App() {
 
   // Ambil jadwal saat stasiun dipilih
   const fetchSchedule = (nid) => {
-    fetch(`http://localhost:8080/v1/api/stations/${nid}`)
+    fetch(`${API_URL}/v1/api/stations/${nid}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -40,7 +42,8 @@ export default function App() {
     <div className="container">
       {/* Title Box */}
       <h1 className="title-box">
-        🚇 Daftar Stasiun MRT Jakarta <span className="count">({stations.length})</span>
+        🚇 Daftar Stasiun MRT Jakarta{" "}
+        <span className="count">({stations.length})</span>
       </h1>
 
       {/* Filter stasiun */}

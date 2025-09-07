@@ -74,7 +74,7 @@ func setupRouter() *gin.Engine {
 		}
 	} else {
 		// Default: izinkan frontend Vercel
-		allowOrigins = []string{"https://namaproject-frontend.vercel.app"}
+		allowOrigins = []string{"https://jadwal-mrt-q3x1.vercel.app/"}
 	}
 
 	router.Use(cors.New(cors.Config{

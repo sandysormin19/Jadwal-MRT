@@ -16,14 +16,14 @@ import (
 )
 
 func main() {
-	// Optional: aktifkan release mode jika environment production
+	// Aktifkan release mode jika environment production
 	if os.Getenv("GIN_MODE") == "release" {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
 	router := setupRouter()
 
-	// Ambil port dari env (Railway akan inject PORT)
+	// Ambil port dari env (Railway otomatis inject PORT)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080" // fallback untuk local
@@ -34,7 +34,7 @@ func main() {
 		Handler: router,
 	}
 
-	// Run server in goroutine
+	// Run server di goroutine
 	go func() {
 		log.Printf("Server starting on :%s\n", port)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
@@ -60,10 +60,10 @@ func main() {
 func setupRouter() *gin.Engine {
 	router := gin.Default()
 
-	// Jangan trust semua proxy — set explicit (kosong = trust none)
-	_ = router.SetTrustedProxies([]string{}) // prevents "trusted all proxies" warning
+	// Jangan trust semua proxy — set explicit
+	_ = router.SetTrustedProxies([]string{})
 
-	// Baca ALLOW_ORIGINS dari env; default '*' untuk development
+	// --- CORS ---
 	allowOriginsEnv := os.Getenv("ALLOW_ORIGINS")
 	var allowOrigins []string
 	if allowOriginsEnv != "" {
@@ -73,7 +73,8 @@ func setupRouter() *gin.Engine {
 			}
 		}
 	} else {
-		allowOrigins = []string{"*"}
+		// Default: izinkan frontend Vercel
+		allowOrigins = []string{"https://namaproject-frontend.vercel.app"}
 	}
 
 	router.Use(cors.New(cors.Config{
@@ -84,12 +85,11 @@ func setupRouter() *gin.Engine {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	// API routes
+	// --- API routes ---
 	api := router.Group("/v1/api")
 	station.Initiate(api)
 
-	// Optional: serve frontend build jika kamu memang menyertakan build di backend repo.
-	// Set FRONTEND_BUILD_DIR env = "./frontend-build" kalau mau aktifkan.
+	// --- Optional: serve frontend build jika ada ---
 	fbDir := os.Getenv("FRONTEND_BUILD_DIR")
 	if fbDir != "" {
 		router.Static("/static", fbDir+"/static")
